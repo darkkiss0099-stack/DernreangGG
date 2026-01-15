@@ -265,7 +265,28 @@ function save(){
 document.addEventListener("keydown",e=>{
   if(e.ctrlKey&&e.shiftKey&&e.key==="A")openAdmin();
 });
+<script>
+function save(){
+  const data = {
+    bg: bgInput.value,
+    tag: tagInput.value,
+    title: titleInput.value,
+    sub: subInput.value,
+    btn1: btn1Input.value.split("|"),
+    btn2: btn2Input.value.split("|"),
+    partners: partnerInput.value
+      .split("\n")
+      .filter(l => l.includes("|"))
+      .map(l => l.split("|"))
+  };
+
+  pageRef.set(data); // 🔥 เขียนลง Firebase
+  closeAdmin();
+}
+</script>
+
 </script>
 
 </body>
 </html>
+
