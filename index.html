@@ -7,147 +7,31 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  min-height:100vh;
-  font-family:Inter,sans-serif;
-  color:#eafcff;
-  background:#000;
-  overflow:hidden;
-}
-
-/* ===== BACKGROUND ===== */
-.bg{
-  position:fixed;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  filter:brightness(.55);
-  z-index:-2;
-}
-.overlay{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle at center,#0ff2,transparent 60%),linear-gradient(#000a,#000);
-  z-index:-1;
-}
-
-/* ===== TOP BAR ===== */
-.topbar{
-  position:fixed;
-  top:0;left:0;right:0;
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  backdrop-filter:blur(10px);
-}
+body{font-family:Inter,sans-serif;background:#000;color:#eafcff;overflow:hidden}
+.bg{position:fixed;inset:0;background-size:cover;background-position:center;filter:brightness(.55);z-index:-2}
+.overlay{position:fixed;inset:0;background:radial-gradient(circle,#0ff2,transparent 60%),linear-gradient(#000a,#000);z-index:-1}
+.topbar{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;backdrop-filter:blur(10px)}
 .brand{font-family:Orbitron;letter-spacing:2px}
-.admin-btn{
-  border:1px solid #fff3;
-  padding:6px 14px;
-  border-radius:20px;
-  cursor:pointer;
-}
+.admin-btn{border:1px solid #fff3;padding:6px 14px;border-radius:20px;cursor:pointer}
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.tag{font-size:12px;letter-spacing:3px;opacity:.7}
+h1{font-family:Orbitron;font-size:clamp(48px,8vw,110px);color:#6df3ff}
+.sub{margin-top:10px;opacity:.8}
+.buttons{margin-top:30px;display:flex;gap:16px}
+.btn{padding:14px 28px;border-radius:30px;border:1px solid #6df3ff88;color:#6df3ff;text-decoration:none}
+.partner{position:absolute;bottom:40px;text-align:center}
+.partner-list{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.partner-list a{padding:6px 14px;border-radius:20px;border:1px solid #fff3;font-size:12px;color:#fff;text-decoration:none}
 
-/* ===== HERO ===== */
-.hero{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.tag{
-  font-size:12px;
-  letter-spacing:3px;
-  opacity:.7;
-}
-h1{
-  font-family:Orbitron;
-  font-size:clamp(48px,8vw,110px);
-  color:#6df3ff;
-  text-shadow:0 0 40px #00ffff55;
-}
-.sub{
-  margin-top:10px;
-  opacity:.8;
-}
-.buttons{
-  margin-top:30px;
-  display:flex;
-  gap:16px;
-}
-.btn{
-  padding:14px 28px;
-  border-radius:30px;
-  border:1px solid #6df3ff88;
-  color:#6df3ff;
-  text-decoration:none;
-  transition:.3s;
-}
-.btn:hover{
-  background:#6df3ff;
-  color:#000;
-}
-
-/* ===== PARTNER ===== */
-.partner{
-  position:absolute;
-  bottom:40px;
-  text-align:center;
-}
-.partner-list{
-  margin-top:10px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.partner-list span{
-  padding:6px 14px;
-  border-radius:20px;
-  border:1px solid #fff3;
-  font-size:12px;
-}
-
-/* ===== ADMIN ===== */
-.admin{
-  position:fixed;
-  inset:0;
-  background:#000c;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-}
-.admin-box{
-  width:95%;
-  max-width:420px;
-  background:#111;
-  padding:20px;
-  border-radius:18px;
-}
-.admin-box h2{text-align:center;margin-bottom:12px}
-.admin-box label{font-size:12px;color:#aaa}
-.admin-box input,textarea{
-  width:100%;
-  margin:6px 0 14px;
-  padding:10px;
-  border-radius:10px;
-  border:none;
-}
-.admin-box button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  font-weight:700;
-  margin-top:6px;
-}
+.admin{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:10}
+.admin-box{width:95%;max-width:420px;background:#111;padding:20px;border-radius:18px}
+.admin-box input,.admin-box textarea{width:100%;margin:6px 0 12px;padding:10px;border-radius:10px;border:none}
+.admin-box button{width:100%;padding:12px;border:none;border-radius:12px;margin-top:6px;font-weight:700}
 .save{background:#6df3ff}
 .close{background:#333;color:#fff}
 </style>
@@ -160,22 +44,31 @@ h1{
 
 <div class="topbar">
   <div class="brand">AWAKE 2K26</div>
-  <div class="admin-btn" onclick="openAdmin()">ADMIN</div>
+  <div class="admin-btn" onclick="openLogin()">ADMIN</div>
 </div>
 
 <div class="hero">
   <div class="tag" id="tag"></div>
   <h1 id="title"></h1>
   <div class="sub" id="sub"></div>
-
   <div class="buttons">
     <a class="btn" id="btn1" target="_blank"></a>
     <a class="btn" id="btn2" target="_blank"></a>
   </div>
-
   <div class="partner">
     <div>PARTNER IN AWAKE 2K26</div>
     <div class="partner-list" id="partners"></div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="admin" id="login">
+  <div class="admin-box">
+    <h2>ADMIN LOGIN</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button class="save" onclick="login()">LOGIN</button>
+    <button class="close" onclick="login.style.display='none'">CLOSE</button>
   </div>
 </div>
 
@@ -183,110 +76,83 @@ h1{
 <div class="admin" id="admin">
   <div class="admin-box">
     <h2>ADMIN EDITOR</h2>
-
-    <label>Background Image URL</label>
-    <input id="bgInput">
-
-    <label>Tag</label>
-    <input id="tagInput">
-
-    <label>Title</label>
-    <input id="titleInput">
-
-    <label>Subtitle</label>
-    <input id="subInput">
-
-    <label>Button 1 (text | url)</label>
-    <input id="btn1Input">
-
-    <label>Button 2 (text | url)</label>
-    <input id="btn2Input">
-
-    <label>Partners (comma)</label>
-    <textarea id="partnerInput"></textarea>
-
+    <input id="bgInput" placeholder="Background URL">
+    <input id="tagInput" placeholder="Tag">
+    <input id="titleInput" placeholder="Title">
+    <input id="subInput" placeholder="Subtitle">
+    <input id="btn1Input" placeholder="Button1 text|url">
+    <input id="btn2Input" placeholder="Button2 text|url">
+    <textarea id="partnerInput" placeholder="Partner text|url (1 ต่อบรรทัด)"></textarea>
     <button class="save" onclick="save()">SAVE</button>
-    <button class="close" onclick="closeAdmin()">CLOSE</button>
+    <button class="close" onclick="admin.style.display='none'">CLOSE</button>
   </div>
 </div>
 
 <script>
-const D={
-  bg:"https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-  tag:"HOUSE OF 588",
-  title:"WINTERFELL AWAKE",
-  sub:"KING OF SABUDBOB",
-  btn1:["WINTERFELL AWAKE","#"],
-  btn2:["AWAKESTYLE","#"],
-  partners:["WINTERFELL","SABUDBOB 588","JUSTYOUKNOW","TWENTY 4 CASH"]
-};
+/* 🔥 FIREBASE CONFIG */
+firebase.initializeApp({
+  apiKey:"YOUR_KEY",
+  authDomain:"YOUR.firebaseapp.com",
+  databaseURL:"https://YOUR.firebaseio.com",
+  projectId:"YOUR"
+});
 
-function load(){
-  const d=JSON.parse(localStorage.getItem("page"))||D;
+const db=firebase.database();
+const pageRef=db.ref("page");
+const adminRef=db.ref("admin");
+
+/* LOAD DATA REALTIME */
+pageRef.on("value",s=>{
+  const d=s.val(); if(!d) return;
   bg.style.backgroundImage=`url(${d.bg})`;
   tag.textContent=d.tag;
   title.textContent=d.title;
   sub.textContent=d.sub;
   btn1.textContent=d.btn1[0];btn1.href=d.btn1[1];
   btn2.textContent=d.btn2[0];btn2.href=d.btn2[1];
-  partners.innerHTML=d.partners.map(p=>`<span>${p}</span>`).join("");
-}
-load();
+  partners.innerHTML=d.partners.map(p=>`<a href="${p[1]}" target="_blank">${p[0]}</a>`).join("");
+});
 
+/* LOGIN */
+function openLogin(){login.style.display="flex"}
+function login(){
+  adminRef.once("value").then(s=>{
+    const a=s.val();
+    if(email.value===a.email && password.value===a.password){
+      login.style.display="none";
+      openAdmin();
+    }else alert("LOGIN FAILED");
+  });
+}
+
+/* ADMIN */
 function openAdmin(){
   admin.style.display="flex";
-  const d=JSON.parse(localStorage.getItem("page"))||D;
-  bgInput.value=d.bg;
-  tagInput.value=d.tag;
-  titleInput.value=d.title;
-  subInput.value=d.sub;
-  btn1Input.value=d.btn1.join("|");
-  btn2Input.value=d.btn2.join("|");
-  partnerInput.value=d.partners.join(",");
+  pageRef.once("value").then(s=>{
+    const d=s.val();
+    bgInput.value=d.bg;
+    tagInput.value=d.tag;
+    titleInput.value=d.title;
+    subInput.value=d.sub;
+    btn1Input.value=d.btn1.join("|");
+    btn2Input.value=d.btn2.join("|");
+    partnerInput.value=d.partners.map(p=>p.join("|")).join("\n");
+  });
 }
 
-function closeAdmin(){admin.style.display="none"}
-
 function save(){
-  const d={
+  pageRef.set({
     bg:bgInput.value,
     tag:tagInput.value,
     title:titleInput.value,
     sub:subInput.value,
     btn1:btn1Input.value.split("|"),
     btn2:btn2Input.value.split("|"),
-    partners:partnerInput.value.split(",")
-  };
-  localStorage.setItem("page",JSON.stringify(d));
-  closeAdmin();
-  load();
+    partners:partnerInput.value.split("\n").map(l=>l.split("|"))
+  });
+  admin.style.display="none";
 }
-
-document.addEventListener("keydown",e=>{
-  if(e.ctrlKey&&e.shiftKey&&e.key==="A")openAdmin();
-});
-<script>
-function save(){
-  const data = {
-    bg: bgInput.value,
-    tag: tagInput.value,
-    title: titleInput.value,
-    sub: subInput.value,
-    btn1: btn1Input.value.split("|"),
-    btn2: btn2Input.value.split("|"),
-    partners: partnerInput.value
-      .split("\n")
-      .filter(l => l.includes("|"))
-      .map(l => l.split("|"))
-  };
-
-  pageRef.set(data); // 🔥 เขียนลง Firebase
-  closeAdmin();
-}
-</script>
-
 </script>
 
 </body>
 </html>
-
