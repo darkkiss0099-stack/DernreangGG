@@ -1,154 +1,270 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D E R N R E A N G</title>
+<title>WINTERFELL AWAKE</title>
 
-<!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
   min-height:100vh;
-  font-family:'Inter',sans-serif;
-  background:radial-gradient(circle at top,#111,#000);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ===== MAIN CARD ===== */
-.wrapper{
-  width:100%;
-  max-width:420px;
-  padding:30px 20px;
-  text-align:center;
-}
-
-/* ===== LOGO ===== */
-.logo{
-  width:110px;
-  height:110px;
-  margin:0 auto 18px;
-  border-radius:50%;
+  font-family:Inter,sans-serif;
+  color:#eafcff;
   background:#000;
-  border:2px solid #fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:4px;
-}
-
-/* ===== TEXT ===== */
-h1{
-  font-size:26px;
-  letter-spacing:3px;
-  margin-bottom:6px;
-}
-
-.subtitle{
-  font-size:13px;
-  color:#aaa;
-  margin-bottom:28px;
-}
-
-/* ===== LINKS ===== */
-.links{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.link{
-  position:relative;
-  padding:16px;
-  background:#111;
-  border:1px solid #333;
-  border-radius:14px;
-  text-decoration:none;
-  color:#fff;
-  font-size:15px;
-  letter-spacing:1px;
-  transition:.35s;
   overflow:hidden;
 }
 
-.link::before{
-  content:"";
-  position:absolute;
+/* ===== BACKGROUND ===== */
+.bg{
+  position:fixed;
   inset:0;
-  background:linear-gradient(120deg,transparent,#fff,transparent);
-  transform:translateX(-100%);
-  transition:.5s;
+  background-size:cover;
+  background-position:center;
+  filter:brightness(.55);
+  z-index:-2;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at center,#0ff2,transparent 60%),linear-gradient(#000a,#000);
+  z-index:-1;
 }
 
-.link:hover::before{
-  transform:translateX(100%);
+/* ===== TOP BAR ===== */
+.topbar{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  backdrop-filter:blur(10px);
+}
+.brand{font-family:Orbitron;letter-spacing:2px}
+.admin-btn{
+  border:1px solid #fff3;
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
 }
 
-.link:hover{
-  background:#fff;
+/* ===== HERO ===== */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.tag{
+  font-size:12px;
+  letter-spacing:3px;
+  opacity:.7;
+}
+h1{
+  font-family:Orbitron;
+  font-size:clamp(48px,8vw,110px);
+  color:#6df3ff;
+  text-shadow:0 0 40px #00ffff55;
+}
+.sub{
+  margin-top:10px;
+  opacity:.8;
+}
+.buttons{
+  margin-top:30px;
+  display:flex;
+  gap:16px;
+}
+.btn{
+  padding:14px 28px;
+  border-radius:30px;
+  border:1px solid #6df3ff88;
+  color:#6df3ff;
+  text-decoration:none;
+  transition:.3s;
+}
+.btn:hover{
+  background:#6df3ff;
   color:#000;
-  transform:scale(1.05);
 }
 
-/* ===== FOOTER ===== */
-.footer{
-  margin-top:28px;
-  font-size:11px;
-  color:#666;
+/* ===== PARTNER ===== */
+.partner{
+  position:absolute;
+  bottom:40px;
+  text-align:center;
+}
+.partner-list{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.partner-list span{
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid #fff3;
+  font-size:12px;
 }
 
-/* ===== ANIMATION ===== */
-.fade{
-  animation:fadeUp .9s ease forwards;
-  opacity:0;
+/* ===== ADMIN ===== */
+.admin{
+  position:fixed;
+  inset:0;
+  background:#000c;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
 }
-
-@keyframes fadeUp{
-  from{transform:translateY(15px);opacity:0}
-  to{transform:translateY(0);opacity:1}
+.admin-box{
+  width:95%;
+  max-width:420px;
+  background:#111;
+  padding:20px;
+  border-radius:18px;
 }
+.admin-box h2{text-align:center;margin-bottom:12px}
+.admin-box label{font-size:12px;color:#aaa}
+.admin-box input,textarea{
+  width:100%;
+  margin:6px 0 14px;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+}
+.admin-box button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  margin-top:6px;
+}
+.save{background:#6df3ff}
+.close{background:#333;color:#fff}
 </style>
 </head>
 
 <body>
 
-<div class="wrapper fade">
+<div class="bg" id="bg"></div>
+<div class="overlay"></div>
 
-  <!-- LOGO -->
-  <div class="logo">WTF</div>
+<div class="topbar">
+  <div class="brand">AWAKE 2K26</div>
+  <div class="admin-btn" onclick="openAdmin()">ADMIN</div>
+</div>
 
-  <!-- NAME -->
-  <h1>DERNREANG DRBOY</h1>
-  <div class="subtitle">LINKS • SOCIAL • CONTENT</div>
+<div class="hero">
+  <div class="tag" id="tag"></div>
+  <h1 id="title"></h1>
+  <div class="sub" id="sub"></div>
 
-  <!-- LINKS -->
-  <div class="links">
-    <a class="link" href="https://gang.fivemlist.info/dernreangstyle" target="_blank">DERNREANG</a>
-    <a class="link" href="https://tiktok.com" target="_blank">Teste'd</a>
+  <div class="buttons">
+    <a class="btn" id="btn1" target="_blank"></a>
+    <a class="btn" id="btn2" target="_blank"></a>
   </div>
 
-  <!-- FOOTER -->
-  <div class="footer">
-    © 2026 DERNREANG | DESIGNED BY DERNREANG
+  <div class="partner">
+    <div>PARTNER IN AWAKE 2K26</div>
+    <div class="partner-list" id="partners"></div>
   </div>
+</div>
 
+<!-- ADMIN -->
+<div class="admin" id="admin">
+  <div class="admin-box">
+    <h2>ADMIN EDITOR</h2>
+
+    <label>Background Image URL</label>
+    <input id="bgInput">
+
+    <label>Tag</label>
+    <input id="tagInput">
+
+    <label>Title</label>
+    <input id="titleInput">
+
+    <label>Subtitle</label>
+    <input id="subInput">
+
+    <label>Button 1 (text | url)</label>
+    <input id="btn1Input">
+
+    <label>Button 2 (text | url)</label>
+    <input id="btn2Input">
+
+    <label>Partners (comma)</label>
+    <textarea id="partnerInput"></textarea>
+
+    <button class="save" onclick="save()">SAVE</button>
+    <button class="close" onclick="closeAdmin()">CLOSE</button>
+  </div>
 </div>
 
 <script>
-// เผื่อขยายในอนาคต
-console.log("DERNREANG READY");
+const D={
+  bg:"https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
+  tag:"HOUSE OF 588",
+  title:"WINTERFELL AWAKE",
+  sub:"KING OF SABUDBOB",
+  btn1:["WINTERFELL AWAKE","#"],
+  btn2:["AWAKESTYLE","#"],
+  partners:["WINTERFELL","SABUDBOB 588","JUSTYOUKNOW","TWENTY 4 CASH"]
+};
+
+function load(){
+  const d=JSON.parse(localStorage.getItem("page"))||D;
+  bg.style.backgroundImage=`url(${d.bg})`;
+  tag.textContent=d.tag;
+  title.textContent=d.title;
+  sub.textContent=d.sub;
+  btn1.textContent=d.btn1[0];btn1.href=d.btn1[1];
+  btn2.textContent=d.btn2[0];btn2.href=d.btn2[1];
+  partners.innerHTML=d.partners.map(p=>`<span>${p}</span>`).join("");
+}
+load();
+
+function openAdmin(){
+  admin.style.display="flex";
+  const d=JSON.parse(localStorage.getItem("page"))||D;
+  bgInput.value=d.bg;
+  tagInput.value=d.tag;
+  titleInput.value=d.title;
+  subInput.value=d.sub;
+  btn1Input.value=d.btn1.join("|");
+  btn2Input.value=d.btn2.join("|");
+  partnerInput.value=d.partners.join(",");
+}
+
+function closeAdmin(){admin.style.display="none"}
+
+function save(){
+  const d={
+    bg:bgInput.value,
+    tag:tagInput.value,
+    title:titleInput.value,
+    sub:subInput.value,
+    btn1:btn1Input.value.split("|"),
+    btn2:btn2Input.value.split("|"),
+    partners:partnerInput.value.split(",")
+  };
+  localStorage.setItem("page",JSON.stringify(d));
+  closeAdmin();
+  load();
+}
+
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==="A")openAdmin();
+});
 </script>
 
 </body>
