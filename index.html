@@ -51,12 +51,10 @@ h1{font-family:Orbitron;font-size:clamp(48px,8vw,110px);color:#6df3ff}
   <div class="tag" id="tag"></div>
   <h1 id="title"></h1>
   <div class="sub" id="sub"></div>
-
   <div class="buttons">
     <a class="btn" id="btn1" target="_blank"></a>
     <a class="btn" id="btn2" target="_blank"></a>
   </div>
-
   <div class="partner">
     <div>PARTNER IN AWAKE 2K26</div>
     <div class="partner-list" id="partners"></div>
@@ -69,7 +67,7 @@ h1{font-family:Orbitron;font-size:clamp(48px,8vw,110px);color:#6df3ff}
     <h2>ADMIN LOGIN</h2>
     <input id="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
-    <button class="save" onclick="loginAdmin()">LOGIN</button>
+    <button class="save" onclick="login()">LOGIN</button>
     <button class="close" onclick="login.style.display='none'">CLOSE</button>
   </div>
 </div>
@@ -78,7 +76,7 @@ h1{font-family:Orbitron;font-size:clamp(48px,8vw,110px);color:#6df3ff}
 <div class="admin" id="admin">
   <div class="admin-box">
     <h2>ADMIN EDITOR</h2>
-    <input id="bgInput" placeholder="Background Image URL">
+    <input id="bgInput" placeholder="Background URL">
     <input id="tagInput" placeholder="Tag">
     <input id="titleInput" placeholder="Title">
     <input id="subInput" placeholder="Subtitle">
@@ -91,68 +89,47 @@ h1{font-family:Orbitron;font-size:clamp(48px,8vw,110px);color:#6df3ff}
 </div>
 
 <script>
-// ================= DEFAULT DATA =================
-const DEFAULT_PAGE={
-  bg:"https://images.unsplash.com/photo-1549880338-65ddcdfd017b",
-  tag:"HOUSE OF 588",
-  title:"WINTERFELL AWAKE",
-  sub:"KING OF SABUDBOB",
-  btn1:["WINTERFELL AWAKE","https://google.com"],
-  btn2:["AWAKESTYLE","https://google.com"],
-  partners:[
-    ["WINTERFELL","https://google.com"],
-    ["SABUDBOB 588","https://google.com"]
-  ]
-};
+/* 🔥 FIREBASE CONFIG */
+firebase.initializeApp({
+  apiKey:"YOUR_KEY",
+  authDomain:"YOUR.firebaseapp.com",
+  databaseURL:"https://YOUR.firebaseio.com",
+  projectId:"YOUR"
+});
 
-// ================= FIREBASE =================
-const firebaseConfig={
-  apiKey:"PUT_YOUR_KEY",
-  authDomain:"PUT_YOUR.firebaseapp.com",
-  databaseURL:"https://PUT_YOUR-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:"PUT_YOUR"
-};
-
-firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 const pageRef=db.ref("page");
 const adminRef=db.ref("admin");
 
-// ================= RENDER =================
-function render(d){
+/* LOAD DATA REALTIME */
+pageRef.on("value",s=>{
+  const d=s.val(); if(!d) return;
   bg.style.backgroundImage=`url(${d.bg})`;
   tag.textContent=d.tag;
   title.textContent=d.title;
   sub.textContent=d.sub;
-  btn1.textContent=d.btn1[0]; btn1.href=d.btn1[1];
-  btn2.textContent=d.btn2[0]; btn2.href=d.btn2[1];
+  btn1.textContent=d.btn1[0];btn1.href=d.btn1[1];
+  btn2.textContent=d.btn2[0];btn2.href=d.btn2[1];
   partners.innerHTML=d.partners.map(p=>`<a href="${p[1]}" target="_blank">${p[0]}</a>`).join("");
-}
-
-// ================= LOAD REALTIME =================
-pageRef.on("value",s=>{
-  const d=s.val();
-  render(d||DEFAULT_PAGE);
 });
 
-// ================= LOGIN =================
+/* LOGIN */
 function openLogin(){login.style.display="flex"}
-
-function loginAdmin(){
+function login(){
   adminRef.once("value").then(s=>{
     const a=s.val();
-    if(a && email.value===a.email && password.value===a.password){
+    if(email.value===a.email && password.value===a.password){
       login.style.display="none";
       openAdmin();
     }else alert("LOGIN FAILED");
   });
 }
 
-// ================= ADMIN =================
+/* ADMIN */
 function openAdmin(){
   admin.style.display="flex";
   pageRef.once("value").then(s=>{
-    const d=s.val()||DEFAULT_PAGE;
+    const d=s.val();
     bgInput.value=d.bg;
     tagInput.value=d.tag;
     titleInput.value=d.title;
