@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRAKESTYLE</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #000, #111, #000);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #111;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 30px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.link-card {
+  text-decoration: none;
+  color: #fff;
+  background: #111;
+  border: 1px solid #333;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.link-card:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.04);
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- โลโก้ -->
+  <div class="logo">DR</div>
+
+  <!-- ชื่อ -->
+  <h1>DRAKESTYLE</h1>
+  <div class="subtitle">STREET • LUXURY • DIGITAL</div>
+
+  <!-- ลิงก์ -->
+  <div class="links">
+    <a class="link-card" href="https://instagram.com" target="_blank">
+      Instagram
+    </a>
+
+    <a class="link-card" href="https://youtube.com" target="_blank">
+      YouTube
+    </a>
+
+    <a class="link-card" href="https://tiktok.com" target="_blank">
+      TikTok
+    </a>
+
+    <a class="link-card" href="https://discord.com" target="_blank">
+      Discord
+    </a>
+
+    <a class="link-card" href="https://github.com" target="_blank">
+      GitHub
+    </a>
+  </div>
+
+  <!-- footer -->
+  <div class="footer">
+    © 2026 DRAKESTYLE
+  </div>
+
+</div>
+
+</body>
+</html>
